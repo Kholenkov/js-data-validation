@@ -1,5 +1,5 @@
-function validateBik(bik, error) {
-	var result = false;
+validateBik = (bik, error) => {
+	let result = false;
 	if (typeof bik === 'number') {
 		bik = bik.toString();
 	} else if (typeof bik !== 'string') {
@@ -20,8 +20,8 @@ function validateBik(bik, error) {
 	return result;
 }
 
-function validateInn(inn, error) {
-	var result = false;
+validateInn = (inn, error) => {
+	let result = false;
 	if (typeof inn === 'number') {
 		inn = inn.toString();
 	} else if (typeof inn !== 'string') {
@@ -37,27 +37,27 @@ function validateInn(inn, error) {
 		error.code = 3;
 		error.message = 'ИНН может состоять только из 10 или 12 цифр';
 	} else {
-		var checkDigit = function (inn, coefficients) {
-			var n = 0;
-			for (var i in coefficients) {
-				n += coefficients[i] * inn[i];
+		let checkDigit = (inn, arr) => {
+			let n = 0;
+			for (let i in arr) {
+				n += arr[i] * inn[i];
 			}
 			return parseInt(n % 11 % 10);
 		};
 		switch (inn.length) {
-			case 10:
-				var n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
+			case 10:{
+				const n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
 				if (n10 === parseInt(inn[9])) {
 					result = true;
 				}
-				break;
-			case 12:
-				var n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
-				var n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+			}
+			case 12:{
+				const n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+				const n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
 				if ((n11 === parseInt(inn[10])) && (n12 === parseInt(inn[11]))) {
 					result = true;
 				}
-				break;
+			}
 		}
 		if (!result) {
 			error.code = 4;
@@ -67,8 +67,8 @@ function validateInn(inn, error) {
 	return result;
 }
 
-function validateKpp(kpp, error) {
-	var result = false;
+validateKpp = (kpp, error) => {
+	let result = false;
 	if (typeof kpp === 'number') {
 		kpp = kpp.toString();
 	} else if (typeof kpp !== 'string') {
@@ -89,8 +89,8 @@ function validateKpp(kpp, error) {
 	return result;
 }
 
-function validateKs(ks, bik, error) {
-	var result = false;
+validateKs = (ks, bik, error) => {
+	let result = false;
 	if (validateBik(bik, error)) {
 		if (typeof ks === 'number') {
 			ks = ks.toString();
@@ -107,9 +107,9 @@ function validateKs(ks, bik, error) {
 			error.code = 3;
 			error.message = 'К/С может состоять только из 20 цифр';
 		} else {
-			var bikKs = '0' + bik.toString().slice(4, 6) + ks;
-			var checksum = 0;
-			var coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
+			const bikKs = '0' + bik.toString().slice(4, 6) + ks;
+			let checksum = 0;
+			const coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
 			for (var i in coefficients) {
 				checksum += coefficients[i] * (bikKs[i] % 10);
 			}
@@ -124,8 +124,8 @@ function validateKs(ks, bik, error) {
 	return result;
 }
 
-function validateOgrn(ogrn, error) {
-	var result = false;
+validateOgrn = (ogrn, error) => {
+	let result = false;
 	if (typeof ogrn === 'number') {
 		ogrn = ogrn.toString();
 	} else if (typeof ogrn !== 'string') {
@@ -141,7 +141,7 @@ function validateOgrn(ogrn, error) {
 		error.code = 3;
 		error.message = 'ОГРН может состоять только из 13 цифр';
 	} else {
-		var n13 = parseInt((parseInt(ogrn.slice(0, -1)) % 11).toString().slice(-1));
+		const n13 = parseInt((parseInt(ogrn.slice(0, -1)) % 11).toString().slice(-1));
 		if (n13 === parseInt(ogrn[12])) {
 			result = true;
 		} else {
@@ -152,8 +152,8 @@ function validateOgrn(ogrn, error) {
 	return result;
 }
 
-function validateOgrnip(ogrnip, error) {
-	var result = false;
+validateOgrnip = (ogrnip, error) => {
+	let result = false;
 	if (typeof ogrnip === 'number') {
 		ogrnip = ogrnip.toString();
 	} else if (typeof ogrnip !== 'string') {
@@ -169,7 +169,7 @@ function validateOgrnip(ogrnip, error) {
 		error.code = 3;
 		error.message = 'ОГРНИП может состоять только из 15 цифр';
 	} else {
-		var n15 = parseInt((parseInt(ogrnip.slice(0, -1)) % 13).toString().slice(-1));
+		const n15 = parseInt((parseInt(ogrnip.slice(0, -1)) % 13).toString().slice(-1));
 		if (n15 === parseInt(ogrnip[14])) {
 			result = true;
 		} else {
@@ -180,8 +180,8 @@ function validateOgrnip(ogrnip, error) {
 	return result;
 }
 
-function validateRs(rs, bik, error) {
-	var result = false;
+validateRs = (rs, bik, error) => {
+	let result = false;
 	if (validateBik(bik, error)) {
 		if (typeof rs === 'number') {
 			rs = rs.toString();
@@ -198,10 +198,10 @@ function validateRs(rs, bik, error) {
 			error.code = 3;
 			error.message = 'Р/С может состоять только из 20 цифр';
 		} else {
-			var bikRs = bik.toString().slice(-3) + rs;
-			var checksum = 0;
-			var coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
-			for (var i in coefficients) {
+			const bikRs = bik.toString().slice(-3) + rs;
+			let checksum = 0;
+			const coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
+			for (let i in coefficients) {
 				checksum += coefficients[i] * (bikRs[i] % 10);
 			}
 			if (checksum % 10 === 0) {
@@ -215,8 +215,8 @@ function validateRs(rs, bik, error) {
 	return result;
 }
 
-function validateSnils(snils, error) {
-	var result = false;
+validateSnils = (snils, error) => {
+	let result = false;
 	if (typeof snils === 'number') {
 		snils = snils.toString();
 	} else if (typeof snils !== 'string') {
@@ -232,11 +232,11 @@ function validateSnils(snils, error) {
 		error.code = 3;
 		error.message = 'СНИЛС может состоять только из 11 цифр';
 	} else {
-		var sum = 0;
-		for (var i = 0; i < 9; i++) {
+		let sum = 0;
+		for (let i = 0; i < 9; i++) {
 			sum += parseInt(snils[i]) * (9 - i);
 		}
-		var checkDigit = 0;
+		let checkDigit = 0;
 		if (sum < 100) {
 			checkDigit = sum;
 		} else if (sum > 101) {
