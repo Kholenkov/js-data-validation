@@ -110,7 +110,7 @@ validateKs = (ks, bik, error) => {
 			const bikKs = '0' + bik.toString().slice(4, 6) + ks;
 			let checksum = 0;
 			const coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
-			for (var i in coefficients) {
+			for (let i in coefficients) {
 				checksum += coefficients[i] * (bikKs[i] % 10);
 			}
 			if (checksum % 10 === 0) {
@@ -202,8 +202,9 @@ validateRs = (rs, bik, error) => {
 			let checksum = 0;
 			const coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
 			for (let i in coefficients) {
-				checksum += coefficients[i] * (bikRs[i] % 10);
+			        checksum += coefficients[i] * (bikRs[i] % 10);
 			}
+			
 			if (checksum % 10 === 0) {
 				result = true;
 			} else {
