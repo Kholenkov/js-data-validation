@@ -216,26 +216,23 @@ function validateRs(rs, bik, error) {
 }
 
 function validateSnils(snils, error) {
-	var result = false;
+	var msg = ['','СНИЛС пуст','СНИЛС может состоять только из цифр','СНИЛС может состоять только из 11 цифр','Неправильное контрольное число','Ошибка СНИЛС'];
+	var result = 5;
 	if (typeof snils === 'number') {
 		snils = snils.toString();
 	} else if (typeof snils !== 'string') {
 		snils = '';
 	}
-	if (!snils.length) {
-		error.code = 1;
-		error.message = 'СНИЛС пуст';
-	} else if (/[^0-9]/.test(snils)) {
-		error.code = 2;
-		error.message = 'СНИЛС может состоять только из цифр';
-	} else if (snils.length !== 11) {
-		error.code = 3;
-		error.message = 'СНИЛС может состоять только из 11 цифр';
-	} else {
+	if (!snils.length)
+		result = 1;
+	else if (/[^0-9]/.test(snils))
+		result = 2;
+	else if (snils.length !== 11)
+		result = 3;
+	else {
 		var sum = 0;
-		for (var i = 0; i < 9; i++) {
+		for (var i = 0; i < 9; i++)
 			sum += parseInt(snils[i]) * (9 - i);
-		}
 		var checkDigit = 0;
 		if (sum < 100) {
 			checkDigit = sum;
@@ -245,12 +242,12 @@ function validateSnils(snils, error) {
 				checkDigit = 0;
 			}
 		}
-		if (checkDigit === parseInt(snils.slice(-2))) {
-			result = true;
-		} else {
-			error.code = 4;
-			error.message = 'Неправильное контрольное число';
-		}
+		if (checkDigit === parseInt(snils.slice(-2)))
+			result = 0;
+		else
+			result = 4;
 	}
-	return result;
+	error.code = result;
+	error.message = msg[result]
+	return result==0;
 }
