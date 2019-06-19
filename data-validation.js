@@ -216,7 +216,7 @@ function validateRs(rs, bik, error) {
 }
 
 function validateSnils(snils, error) {
-  var msg = ['','СНИЛС пуст','СНИЛС может состоять только из цифр','СНИЛС может состоять только из 11 цифр','Неправильное контрольное число','Ошибка СНИЛС'];
+	var msg = ['','СНИЛС пуст','СНИЛС может состоять только из цифр','СНИЛС может состоять только из 11 цифр','Неправильное контрольное число','Ошибка СНИЛС'];
 	var result = 5;
 	if (typeof snils === 'number') {
 		snils = snils.toString();
@@ -247,7 +247,7 @@ function validateSnils(snils, error) {
 		else
 			result = 4;
 	}
-  error.code = result;
-  error.message = msg[result]
+	error.code = result;
+	error.message = msg[result]
 	return result==0;
 }
