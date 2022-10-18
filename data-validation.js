@@ -202,7 +202,7 @@ function validateRs(rs, bik, error) {
 			var checksum = 0;
 			var coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
 			for (var i in coefficients) {
-				checksum += coefficients[i] * (bikRs[i] % 10);
+				checksum += (coefficients[i] * bikRs[i] % 10);
 			}
 			if (checksum % 10 === 0) {
 				result = true;
